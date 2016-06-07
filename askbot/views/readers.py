@@ -74,10 +74,11 @@ def index(request):#generates front page - shows listing of questions sorted in 
 def offering_questions(request,offering_id):
     offering = get_object_or_404(Offering,id=offering_id)
     questions =  models.Post.objects.filter(
-                                post_type = 'question', offering=offering)
+                                post_type = 'question', thread__offering=offering)
     return render(request,"question/simple_questions.html",{"questions":questions,"offering":offering})
 
-def questions(request, **kwargs):
+def questions(request, offering_id, **kwargs):
+
     """
     List of Questions, Tagged questions, and Unanswered questions.
     matching search query or user selection
@@ -85,14 +86,14 @@ def questions(request, **kwargs):
     #before = timezone.now()
     if request.method != 'GET':
         return HttpResponseNotAllowed(['GET'])
-
+    offering = get_object_or_404(Offering,id=offering_id)
     search_state = SearchState(
-                    user_logged_in=request.user.is_authenticated(),
+                    user_logged_in=request.user.is_authenticated(),offering_id=offering_id,
                     **kwargs
                 )
 
     qs, meta_data = models.Thread.objects.run_advanced_search(
-                        request_user=request.user, search_state=search_state
+                        request_user=request.user, search_state=search_state, offering=offering
                     )
     if meta_data['non_existing_tags']:
         search_state = search_state.remove_tags(meta_data['non_existing_tags'])
@@ -183,11 +184,12 @@ def questions(request, **kwargs):
                     'threads': page,
                     'search_state': search_state,
                     'reset_method_count': reset_method_count,
-                    'request': request
+                    'request': request,
+                    'offering_id':offering_id,
                 }
             )
         )
-
+        print questions_html
         ajax_data = {
             'query_data': {
                 'tags': search_state.tags,
@@ -268,7 +270,8 @@ def questions(request, **kwargs):
             'email_tag_filter_strategy_choices': conf.get_tag_email_filter_strategy_choices(),
             'query_string': search_state.query_string(),
             'search_state': search_state,
-            'feed_url': context_feed_url
+            'feed_url': context_feed_url,
+            'offering_id':offering_id,
         }
 
         extra_context = context.get_extra(
