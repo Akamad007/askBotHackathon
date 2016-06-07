@@ -11,6 +11,7 @@ from django.contrib import admin
 from askbot import models
 from django.contrib.admin import SimpleListFilter
 
+
 class AnonymousQuestionAdmin(admin.ModelAdmin):
     """AnonymousQuestion admin class"""
 
@@ -50,7 +51,7 @@ class IsPersonal(SimpleListFilter):
             return queryset.filter(name__contains=models.user.PERSONAL_GROUP_NAME_PREFIX)
         elif self.value() == '0':
             return queryset.exclude(name__contains=models.user.PERSONAL_GROUP_NAME_PREFIX)
-        else: 
+        else:
             return queryset
 
 class GroupAdmin(admin.ModelAdmin):
@@ -69,3 +70,4 @@ admin.site.register(models.Award, AwardAdmin)
 admin.site.register(models.Repute, ReputeAdmin)
 admin.site.register(models.Activity, ActivityAdmin)
 admin.site.register(models.BulkTagSubscription)
+admin.site.register(models.Offering)

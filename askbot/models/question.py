@@ -165,6 +165,7 @@ class ThreadManager(BaseQuerySetManager):
 
     def create_new(
                 self,
+                offering,
                 title,
                 author,
                 added_at,
@@ -190,6 +191,7 @@ class ThreadManager(BaseQuerySetManager):
             self
         ).create(
             title=title,
+            offering=offering,
             tagnames=tagnames,
             last_activity_at=added_at,
             last_activity_by=author,
@@ -634,7 +636,7 @@ class ThreadToGroup(models.Model):
 
 class Thread(models.Model):
     title = models.CharField(max_length=300)
-
+    offering = models.ForeignKey('Offering', blank=False, null=False)
     tags = models.ManyToManyField('Tag', related_name='threads')
     groups = models.ManyToManyField(Group, through=ThreadToGroup, related_name='group_threads')
 

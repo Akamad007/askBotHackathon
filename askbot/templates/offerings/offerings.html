@@ -1,0 +1,8 @@
+{% extends "two_column_body.html" %}
+{% block content %}
+{% for offering in offerings %}
+
+    <a href="/{{ offering.id }}/questions/">{{ offering.name }}</a><br>
+{#    {{ offering }}#}
+{% endfor %}
+{% endblock %}

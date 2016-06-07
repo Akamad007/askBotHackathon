@@ -38,6 +38,7 @@ from askbot import models
 from askbot import signals
 from askbot.conf import settings as askbot_settings
 from askbot.utils import decorators
+from askbot.models.offerings import Offering
 from askbot.utils.forms import format_errors
 from askbot.utils.functions import diff_date
 from askbot.utils import url_utils
@@ -197,13 +198,14 @@ def import_data(request):
 @csrf.csrf_protect
 @decorators.check_authorization_to_post(ugettext_lazy('Please log in to make posts'))
 @decorators.check_spam('text')
-def ask(request):#view used to ask a new question
+def ask(request, offering_id):#view used to ask a new question
     """a view to ask a new question
     gives space for q title, body, tags and checkbox for to post as wiki
 
     user can start posting a question anonymously but then
     must login/register in order for the question go be shown
     """
+    offering = get_object_or_404(Offering, id=offering_id)
     if request.user.is_authenticated():
         if request.user.is_read_only():
             referer = request.META.get("HTTP_REFERER", reverse('questions'))
@@ -238,7 +240,9 @@ def ask(request):#view used to ask a new question
 
             if user:
                 try:
+
                     question = user.post_question(
+                        offering=offering,
                         title=title,
                         body_text=text,
                         tags=tagnames,
@@ -248,7 +252,7 @@ def ask(request):#view used to ask a new question
                         timestamp=timestamp,
                         group_id=group_id,
                         language=language,
-                        ip_addr=request.META.get('REMOTE_ADDR')
+                        ip_addr=request.META.get('REMOTE_ADDR'),
                     )
                     signals.new_question_posted.send(None,
                         question=question,
@@ -322,9 +326,11 @@ def ask(request):#view used to ask a new question
         'mandatory_tags': models.tag.get_mandatory_tags(),
         'email_validation_faq_url':reverse('faq') + '#validate',
         'category_tree_data': askbot_settings.CATEGORY_TREE,
-        'tag_names': list()#need to keep context in sync with edit_question for tag editor
+        'tag_names': list(),#need to keep context in sync with edit_question for tag editor
+        'offering_id':offering_id,
     }
     data.update(context.get_for_tag_editor())
+    print data
     return render(request, 'ask.html', data)
 
 @login_required

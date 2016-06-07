@@ -70,9 +70,24 @@ urlpatterns = patterns('',
         name='questions'
     ),
     url(
+        r'^(?P<offering_id>\d+)/questions/$',
+        views.readers.offering_questions,
+        name='offering_questions'
+    ),
+    url(
+        r'^questions/ask/(?P<offering_id>\d+)/$',
+        views.writers.ask,
+        name='offering_question_ask'
+    ),
+    url(
         r'^%s(?P<id>\d+)/' % QUESTION_PAGE_BASE_URL,
         views.readers.question,
         name='question'
+    ),
+    url(
+        r'^offerings/',
+        views.readers.offerings,
+        name='offerings'
     ),
     url(
         r'^%s$' % pgettext('urls', 'tags/'),

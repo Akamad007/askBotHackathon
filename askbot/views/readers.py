@@ -26,12 +26,14 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from django.utils import translation
 from django.views.decorators import csrf
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.core import exceptions as django_exceptions
 from django.contrib.humanize.templatetags import humanize
 from django.http import QueryDict
 from django.conf import settings as django_settings
 
+from askbot.models.offerings import Offering
 from askbot import conf, const, exceptions, models, signals
 from askbot.conf import settings as askbot_settings
 from askbot.forms import AnswerForm
@@ -67,7 +69,13 @@ from askbot.models import Post, Vote
 def index(request):#generates front page - shows listing of questions sorted in various ways
     """index view mapped to the root url of the Q&A site
     """
-    return HttpResponseRedirect(reverse('questions'))
+    return HttpResponseRedirect(reverse('offerings'))
+
+def offering_questions(request,offering_id):
+    offering = get_object_or_404(Offering,id=offering_id)
+    questions =  models.Post.objects.filter(
+                                post_type = 'question', offering=offering)
+    return render(request,"question/simple_questions.html",{"questions":questions,"offering":offering})
 
 def questions(request, **kwargs):
     """
@@ -283,7 +291,7 @@ def questions(request, **kwargs):
                     'and set the base url for your site to function properly'
                 ) % url
                 request.user.message_set.create(message=msg)
-
+        print "dusan"
         return render(request, 'main_page.html', template_data)
         #print timezone.now() - before
         #return res
@@ -790,3 +798,9 @@ def get_post_html(request):
     post = models.Post.objects.get(id=request.GET['post_id'])
     post.assert_is_visible_to(request.user)
     return {'post_html': post.html}
+
+@login_required
+def offerings(request):
+    offerings = Offering.objects.all()
+    print offerings
+    return render(request,"offerings/offerings.html",{"offerings":offerings})

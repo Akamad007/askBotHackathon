@@ -1,0 +1,13 @@
+{% extends "two_column_body.html" %}
+{% block content %}
+      {% if questions %}
+<div id="question-list">
+
+        {% for question in questions %}
+            {{ question }}<br />
+        {% endfor %}
+    </div>
+    {% else %}
+          <a href="/questions/ask/{{ offering.id }}/">Ask a question regarding {{ offering.name }}</a>
+    {% endif %}
+{% endblock %}

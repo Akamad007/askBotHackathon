@@ -1929,6 +1929,7 @@ def user_restore_post(
 @reject_forbidden_phrases
 def user_post_question(
                     self,
+                    offering,
                     title=None,
                     body_text='',
                     tags=None,
@@ -1961,6 +1962,7 @@ def user_post_question(
     #or maybe just add a blank question post anyway
     thread = Thread.objects.create_new(
                                     author=self,
+                                    offering=offering,
                                     title=title,
                                     text=body_text,
                                     tagnames=tags,
@@ -1972,7 +1974,7 @@ def user_post_question(
                                     by_email=by_email,
                                     email_address=email_address,
                                     language=language,
-                                    ip_addr=ip_addr
+                                    ip_addr=ip_addr,
                                 )
     thread.reset_cached_data()
     question = thread._question_post()
@@ -4332,7 +4334,7 @@ signals.question_visited.connect(
 #except ImportError:
 #    pass
 
-
+from askbot.models.offerings import Offering
 __all__ = [
         'signals',
         'Thread',
@@ -4374,4 +4376,6 @@ __all__ = [
         'ImportedObjectInfo',
 
         'get_model',
+
+        'Offering',
 ]
