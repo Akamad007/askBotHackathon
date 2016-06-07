@@ -21,6 +21,7 @@ from django.core import cache
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
+from askbot.models.offerings import Offering
 
 import askbot
 
@@ -435,6 +436,7 @@ class Post(models.Model):
     old_answer_id = models.PositiveIntegerField(null=True, blank=True, default=None, unique=True)
     old_comment_id = models.PositiveIntegerField(null=True, blank=True, default=None, unique=True)
 
+    offering = models.ForeignKey('Offering', blank=False, null=False)
     parent = models.ForeignKey('Post', blank=True, null=True, related_name='comments') # Answer or Question for Comment
     thread = models.ForeignKey('Thread', blank=True, null=True, default=None, related_name='posts')
     current_revision = models.ForeignKey(
