@@ -3185,11 +3185,11 @@ ul.js-related-tags li {
 }
 
 .question-page .answered-by-owner .comments {
-    background-color: #E6ECFF;
+    background-color: #fefaeb;
 }
 
 .question-page .answered-by-owner .comments .js-load-comments-btn, .question-page .answered-by-owner .comments .js-open-editor-btn {
-    background-color: #E6ECFF;
+    background-color: #fefaeb;
 }
 
 .question-page .answer-img-accept {
