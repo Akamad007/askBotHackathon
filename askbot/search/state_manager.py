@@ -86,10 +86,10 @@ class SearchState(object):
 
     @classmethod
     def get_empty(cls):
-        return cls(scope=None, sort=None, query=None, tags=None, author=None, page=None, page_size=None, user_logged_in=None)
+        return cls(offering_id=1,scope=None, sort=None, query=None, tags=None, author=None, page=None, page_size=None, user_logged_in=None)
 
     def __init__(self,
-        scope=None, sort=None, query=None, tags=None,
+        offering_id=1, scope=None, sort=None, query=None, tags=None,
         author=None, page=None, page_size=None, user_logged_in=False
     ):
         # INFO: zip(*[('a', 1), ('b', 2)])[0] == ('a', 'b')
@@ -141,8 +141,7 @@ class SearchState(object):
 
         default_page_size = int(askbot_settings.DEFAULT_QUESTIONS_PAGE_SIZE)
         self.page_size = int(page_size) if page_size else default_page_size
-
-        self._questions_url = urlresolvers.reverse('questions')
+        self._questions_url = urlresolvers.reverse('questions', kwargs={'offering_id':offering_id})
 
     def __str__(self):
         return self.query_string()

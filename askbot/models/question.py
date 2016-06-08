@@ -301,7 +301,7 @@ class ThreadManager(BaseQuerySetManager):
                 )
 
 
-    def run_advanced_search(self, request_user, search_state):  # TODO: !! review, fix, and write tests for this
+    def run_advanced_search(self, request_user, search_state, offering):  # TODO: !! review, fix, and write tests for this
         """
         all parameters are guaranteed to be clean
         however may not relate to database - in that case
@@ -312,7 +312,8 @@ class ThreadManager(BaseQuerySetManager):
 
         primary_filter = {
             'posts__post_type': 'question',
-            'posts__deleted': False
+            'posts__deleted': False,
+            'offering':offering
         }
 
         lang_mode = askbot.get_lang_mode()

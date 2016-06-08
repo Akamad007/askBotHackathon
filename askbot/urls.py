@@ -51,13 +51,14 @@ QUESTION_PAGE_BASE_URL = getattr(
                         pgettext('urls', 'question')
                     ).strip('/') + '/'
 
+
 APP_PATH = os.path.dirname(__file__)
 urlpatterns = patterns('',
     url(r'^$', views.readers.index, name='index'),
     # BEGIN Questions (main page) urls. All this urls work both normally and through ajax
     url(
-        # Note that all parameters, even if optional, are provided to the view. Non-present ones have None value.
-        (r'^%s' % MAIN_PAGE_BASE_URL.strip('/') +
+         # Note that all parameters, even if optional, are provided to the view. Non-present ones have None value.
+        (r'^(?P<offering_id>\d+)/questions/'.strip('/') +
             r'(%s)?' % r'/scope:(?P<scope>\w+)' +
             r'(%s)?' % r'/sort:(?P<sort>[\w\-]+)' +
             r'(%s)?' % r'/tags:(?P<tags>[\w+.#,-]+)' + # Should match: const.TAG_CHARS + ','; TODO: Is `#` char decoded by the time URLs are processed ??
@@ -68,11 +69,6 @@ urlpatterns = patterns('',
         r'/$'),
         views.readers.questions,
         name='questions'
-    ),
-    url(
-        r'^(?P<offering_id>\d+)/questions/$',
-        views.readers.offering_questions,
-        name='offering_questions'
     ),
     url(
         r'^questions/ask/(?P<offering_id>\d+)/$',
