@@ -1,8 +1,36 @@
-{% extends "two_column_body.html" %}
+{% extends "one_column_body.html" %}
 {% block content %}
+    {% if offerings %}
+       <h2> My Offerings</h2><br/>
+    {% endif  %}
 {% for offering in offerings %}
 
-    <a href="/{{ offering.id }}/questions/">{{ offering.name }}</a><br>
-{#    {{ offering }}#}
+    <a href="/{{ offering.id }}/questions/">
+
+    <div class="container-fluid progressbar active-plan" onclick="location.href='/sfplan/view_plan/366/'">
+            <div class="panel panel-default">
+
+                <div class="panel-body"><h3 class="col-xs-10 no-padding plan-name"> {{ offering.name }}</h3></div>
+                <div class="panel-body">
+                    Updated: {{ offering.updated|date}}
+                    <!-- change conditional below when activity viewing is available. -->
+
+                </div>
+
+
+                <div class="panel-body">
+                    <span class="col-xs-7 no-padding">
+                      <b> Description :</b>  {{ offering.description }}
+                    </span>
+                    <br />
+                    <span class="col-xs-3 no-padding text-right" id="progress-366-135"><b>Pofessor :</b> {{ offering.professor }}</span><br />
+                      <span class="col-xs-3 no-padding text-right" id="progress-366-135"><b>Term :</b> {{ offering.term }}</span>,
+                      <span class="col-xs-3 no-padding text-right" id="progress-366-135"><b>Timings :</b>  {{ offering.timings }}</span>
+
+                </div>
+
+            </div>
+        </div>
+    </a><br>
 {% endfor %}
 {% endblock %}
