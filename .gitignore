@@ -56,3 +56,4 @@ recaptcha
 htmlcov
 node_modules
 bower_components/
+askbot_db
