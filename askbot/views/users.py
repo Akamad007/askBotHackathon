@@ -953,7 +953,7 @@ def user_reputation(request, user, context):
                                         'question__thread',
                                         'user'
                                     )
-                                    
+
 
     # prepare data for the graph - last values go in first
     reputation = const.MIN_REPUTATION
@@ -1200,6 +1200,7 @@ def user(request, id, slug=None, tab_name=None):
     user_view_func = USER_VIEW_CALL_TABLE.get(tab_name, user_stats)
 
     search_state = SearchState(
+
         scope=None,
         sort=None,
         query=None,

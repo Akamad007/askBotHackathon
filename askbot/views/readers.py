@@ -344,7 +344,8 @@ def tags(request):#view showing a listing of available tags - plain list
 
 
     tags_qs = tags_qs.order_by(order_by)
-
+    search_state_data = [None for x in range(9)]
+    search_state_data[0] = 1
     #3) Start populating the template context.
     data = {
         'active_tab': 'tags',
@@ -353,7 +354,7 @@ def tags(request):#view showing a listing of available tags - plain list
         'query' : query,
         'tab_id' : sort_method,
         'keywords' : query,
-        'search_state': SearchState(*[None for x in range(8)])
+        'search_state': SearchState(*search_state_data)
     }
 
     if tag_list_type == 'list':
@@ -401,6 +402,7 @@ def question(request, id):#refactor - long subroutine. display question body, an
     #process url parameters
     #todo: fix inheritance of sort method from questions
     #before = timezone.now()
+    print request
     form = ShowQuestionForm(request.REQUEST)
     form.full_clean()#always valid
     show_answer = form.cleaned_data['show_answer']
@@ -674,6 +676,7 @@ def question(request, id):#refactor - long subroutine. display question body, an
         'user_votes': user_votes,
         'user_post_id_list': user_post_id_list,
         'user_can_post_comment': user_can_post_comment,#in general
+        'offering_id':thread.offering.id,
     }
     #shared with ...
     if askbot_settings.GROUPS_ENABLED:

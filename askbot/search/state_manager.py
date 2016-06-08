@@ -89,7 +89,7 @@ class SearchState(object):
         return cls(offering_id=1,scope=None, sort=None, query=None, tags=None, author=None, page=None, page_size=None, user_logged_in=None)
 
     def __init__(self,
-        offering_id, scope=None, sort=None, query=None, tags=None,
+        offering_id=1, scope=None, sort=None, query=None, tags=None,
         author=None, page=None, page_size=None, user_logged_in=False
     ):
         # INFO: zip(*[('a', 1), ('b', 2)])[0] == ('a', 'b')

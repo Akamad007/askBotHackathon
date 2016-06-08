@@ -1073,7 +1073,7 @@ def finalize_generic_signin(
 
 @not_authenticated
 @csrf.csrf_protect
-def register(request, login_provider_name=None, 
+def register(request, login_provider_name=None,
     user_identifier=None, redirect_url=None):
     """
     this function is used via it's own url with request.method=POST

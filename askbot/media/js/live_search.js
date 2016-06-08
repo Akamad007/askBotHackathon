@@ -212,7 +212,7 @@ SearchDropMenu.prototype.createDom = function () {
     var footer = this.makeElement('div');
     this._element.append(footer);
     this._footer = footer;
-
+    /*
     if (this._askButtonEnabled) {
         footer.addClass('footer');
         var button = this.makeElement('button');
@@ -222,7 +222,7 @@ SearchDropMenu.prototype.createDom = function () {
         var handler = this._askHandler;
         setupButtonEventHandlers(button, handler);
     }
-
+    */
     $(document).keydown(this.makeKeyHandler());
 };
 
