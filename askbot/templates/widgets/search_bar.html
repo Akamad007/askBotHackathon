@@ -1,6 +1,6 @@
 {% if active_tab != "ask" %}
 {% spaceless %}
-<div 
+<div
     id="searchBar"
     class="search-bar{% if query %} cancelable{% endif %}"
 >
@@ -11,13 +11,13 @@
     {% elif active_tab == "users" %}
         <input type="hidden" name="t" value="user"/>
     {% endif %}
-    <input 
-        class="searchInput" 
-        type="text" 
+    <input
+        class="searchInput"
+        type="text"
         autocomplete="off"
-        value="{{ query|default_if_none('')|escape }}" 
-        name="query" 
-        placeholder="{% trans %}search or ask your question{% endtrans %}"
+        value="{{ query|default_if_none('')|escape }}"
+        name="query"
+        placeholder="Search"
         id="keywords"
     />
     <input type="submit" value="" name="search" class="searchBtn" />

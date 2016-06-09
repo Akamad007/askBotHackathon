@@ -99,7 +99,7 @@ settings.register(
                         'at <a href="%(favicon_info_url)s">this page</a>.'
                     ) % {'favicon_info_url': const.DEPENDENCY_URLS['favicon']},
         allowed_file_extensions = ('ico',),#only allow .ico files
-        default = '/images/favicon.gif',
+        default = '/images/favicon.ico',
         url_resolver = skin_utils.get_media_url
     )
 )
@@ -113,7 +113,7 @@ settings.register(
                         'An 88x38 pixel image that is used on the login screen '
                         'for the password login button.'
                     ),
-        default = '/images/pw-login.gif',
+        default = '/images/Starfish.jpg',
         url_resolver = skin_utils.get_media_url
     )
 )
